@@ -1,0 +1,74 @@
+<html lang="en">
+
+<head>
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Hello World</h1>
+    <form action="/index1" method="POST">
+        <input type="text" name="user" id="" value="USER1">
+        <input type="text" name="id" id="" value="1">
+        <button type="submit">Submit</button>
+    </form>
+    <button class="btn">Click</button>
+    <button class="btn1" id="get-json">Get JSON</button>
+    <button class="btn2" id="get-user">Get User</button>
+
+
+    <script>
+        const btn = document.querySelector('.btn');
+        const myId = document.querySelector('input[name="id"]');
+        const btn1 = document.querySelector('#get-json');
+        const btn2 = document.querySelector('#get-user');
+
+
+        btn1.addEventListener('click', () => {
+            console.log('Cliked');
+            fetch('/myUsers').then(res => res.json())
+                .then((data) => {
+                    data.user.forEach(element => {
+                        console.log(element)    
+                    }); 
+                })
+        });
+
+        btn2.addEventListener('click', () => {
+            console.log(`${myId.value}`);
+            fetch(`/getUser/${myId.value}`).then(res => res.json())
+                .then((data) => {
+                    if(data!=0){
+                    data.forEach(element => {
+                        console.log(element)    
+                    }); 
+                }else{
+                    console.log("User not found");
+                }
+                })
+        });
+
+       
+
+        btn.addEventListener('click', () => {
+            console.log('click');
+            const id = myId.value;
+            endPoint = '/users2';
+            fetch(endPoint + '/' + id, {
+                method: 'delete'
+            }).then(res => res.json())
+                .then(data => console.log(data));
+
+            fetch(endPoint + '/' + id, {
+                method: 'put'
+            }).then(res => res.json())
+                .then(data => console.log(data));
+
+
+
+        })
+    </script>
+
+
+</body>
+
+</html>
